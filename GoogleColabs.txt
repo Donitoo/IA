@@ -1,0 +1,97 @@
+//Subir la data al Google  Colabs
+from google.colab import files
+uploaded = files.upload()
+
+
+import io
+import pandas as pd
+data = pd.read_csv(io.BytesIO(uploaded['MiData.csv']))
+
+//FASE: PREPARACION DE DATA
+data.info()	// Ver Columnas,DataTypes, si indica tipo OBJECT inmediatamente pasar a NUMERICO
+data.describe() //Estadistico, count, mean, std, min, 25%, max, media estandar
+data.hist() //Histograma, grafico
+data['MiCampo'].unique() // Distinct
+
+//Pasar datatype Object a Numeric
+data['campo'] = pd.to_numeric(data['campo'], errors='coerce')
+
+//Renombrar un campo
+data = data.rename(columns={'EMPLOYEE #': 'employee_id'})
+
+//Combinar dos dataset data01 y data02 en uno en base a un campo MiCampoEnComun
+data = pd.merge(data01, data02, on='MiCampoEnComun', how='inner')
+
+//Eliminar columnas
+data = data.drop(columns=['camp1'])
+data = data.drop(columns=['camp2'])
+data = data.drop(columns=['camp3'])
+
+//Conteo de Null/Vacio por cada columna
+data.isna().sum()
+
+// Llenar con CERO a los NULL o VACIOS
+data['campo'] = dat['campo'].fillna(0) 
+
+//Eliminar las filas que tengan algun campo Null/Vacio
+data = data.dropna(how='any')
+
+
+//Cambiar Valores string a Numericos
+Valores_A_Reemplazar = { "MiCampo": {'valor 01':1, 'valor 02': 2, 'valor 03': 3 ... } }
+data.replace(Valores_A_Reemplazar, inplace=True)
+
+//Comparar campos con el campo a predecir en plano cartesiano de X y Y, con el objetivo de eliminar o filtrar data que no tengan sentido en la comparacion al ver el cuadro que genera
+import matplotlib.pyplot as plt
+plt.scatter(x=data['miCampo1'], y=data['MiCampoAPredecir'])
+plt.title('miCampo1 Vs MiCampoAPredecir')
+plt.xlabel('miCampo1')
+plt.ylabel('MiCampoAPredecir')
+plt.show()
+
+//Filtramos el campo eliminando la data que se comparo y que no tiene sentido
+data = data.query['miCampo1<1000']
+
+//Volver a comparar para serciorarse que tengan sentido, asi con todos los campos, luego se pasara a la siguiente fase, entrenar el modelo a elegir
+
+//FASE: PREPARACION ENTRENAMIENTO
+Variables Predictoras				Variables Prediccion
+Entrenamiento KMS				Tiempo Maraton
+Entrenamiento Velocidad
+Categoria
+etc...			
+
+Partir todo el DATASET en 2:
+80% Datos Entrenamiento			(Variables Predictoras y Prediccion)
+20% Datos Test o Validacion		(Variables Predictoras y Prediccion)
+
+//Diviendo el DATASET en 2 bloques Datos de Entrenamiento y Test
+data_entrenamiento  = data.sample(frac=0.8, random_state=0)
+data_test = data.drop(data_entrenamiento.index)
+
+//Guardamos los datos de MiCampoAPredecir, para el entrenamiento (etiquetas_entrenamiento) y para comparar el margen de error de la prediccion (etiquetas_test), pop=> meter
+etiquetas_entrenamiento   = data_entrenamiento.pop('MiCampoAPredecir')
+etiquetas_test		  = data_test.pop('MiCampoAPredecir')
+
+
+//Crear modelo y entrenarlo
+from sklearn.linear_model import LinearRegression
+modelo = LinearRegression()
+modelo.fit(data_entrenamiento,etiquetas_entrenamiento)
+
+//Predecimos con la data_test y Verificamos que tan bien fue entrenado el modelo
+predicciones = modelo.predict(data_test)
+predicciones
+
+//Comparamos las predicciones con los valores de etiquetas_test
+import numpy as np
+from sklearn.metrics import mean_squared_error
+error = np.sqrt(mean_squared_error(etiquetas_test, predicciones))
+print('Error porcentual: %f' % (error*100))
+
+//Agregar una nueva fila 
+new_data = pd.DataFrame(np.array([[400,15,0,1.4]]), columns=['column1','column2','column3','column4'])
+new_data
+
+//Le decimos al Modelo que genere una prediccion
+modelo.predict(new_data)

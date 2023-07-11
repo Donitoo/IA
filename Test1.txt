@@ -1,0 +1,13 @@
+1. Carga de datos
+2. Análisis de datos exploratorio
+3. Preparación de Datos
+4. Separación de datos de entrenamiento y prueba (70/30)
+5. Elaboración de los modelos, con la misma semilla para los siguientes modelos:
+     5.1. Modelo de Regresión Lineal
+     5.2. Modelo de Regresión Lineal con variables Polinomiales
+     5.3. Modelo de bosques aleatorios (Random Forest)
+6. Luego evaluar todos los modelos con
+     6.1.  Valor Absoluto
+     6.2. Al cuadrado
+     6.3. Prueba Normalidad
+7.  Por ultimo indicar quien es el mejor modelo, con la mejor puntuación

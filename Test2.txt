@@ -1,0 +1,16 @@
+1. Carga de datos
+2. Analisis de datos exploratorio
+3. Preparacion de Datos
+4. Separación de datos de entrenamiento y prueba (70/30)
+5. Elaboración de los modelos, con la misma semilla para los siguientes modelos:
+     5.1. Modelo de Regresión Lineal
+     5.2. Modelo de Regresión Lineal Simple con Mínimos Cuadrados Ordinarios 
+     5.3. Modelo de Regresión Lineal con variables Polinomiales
+     5.4. Modelo de bosques aleatorios (Random Forest)
+     5.5. Regresión Lineal Boston con estandarización
+     5.6. Red Neuronal con Keras
+6. Luego evaluar todos los modelos con las metricas
+     6.1. Matriz de confusión
+     6.2. Sensibilidad
+     6.3. Puntuacion F1
+7.  Por ultimo indicar quien es el mejor modelo, con la mejor puntuacion
